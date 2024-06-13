@@ -1,8 +1,4 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
-  export ZSH=/home/lukaus/.oh-my-zsh
+export ZSH=/home/lukaus/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -89,19 +85,10 @@ export EDITOR='vim'
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 TERM="xterm-256color"
 today=$(/usr/bin/date +'%Y-%m-%d')
-alias class='cd /home/lukaus/Documents/SCHOOL/spring2017'
-alias prog='cd /home/lukaus/Dropbox/PROGRAMMING/'
-alias rpg='cd /home/lukaus/Dropbox/RPG/'
-alias dnd='cd /home/lukaus/Documents/DnD/'
-alias rang='ssh -X ranger1.cs.mtsu.edu'
-alias crang='ssh -X c8095442@ranger1.cs.mtsu.edu'
-alias MCS='ssh -X -i ~/Documents/us-east-minecraft.pem ec2-user@lukaus.com'
+alias vim='nvim'
 alias ll="ls -l --color=auto"
 alias la="ls -a --color=auto"
 alias lla="ls -l -a --color=auto"
