@@ -1,4 +1,10 @@
-export ZSH=/home/lukaus/.oh-my-zsh
+#voice.channel you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$PATH:/usr/local/go/bin
+path+=('/home/lukaus/.cargo/bin')
+
+# Path to your oh-my-zsh installation.
+  export ZSH=/home/lukaus/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -69,7 +75,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
-export EDITOR='vim'
+export EDITOR='nvim'
 # else
 #   export EDITOR='mvim'
 # fi
@@ -85,16 +91,27 @@ export EDITOR='vim'
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 TERM="xterm-256color"
 today=$(/usr/bin/date +'%Y-%m-%d')
-alias vim='nvim'
+
+export PATH="${PATH}:/home/lukaus/CEdev/bin"
+
+alias vim='nvim' # risky???
+
+alias dev='tmux a -t dev'
 alias ll="ls -l --color=auto"
 alias la="ls -a --color=auto"
 alias lla="ls -l -a --color=auto"
+alias diff="icdiff -HN"
+alias odiff="diff"
+alias vim="nvim"
+alias ovim="vim"
 alias bc="bc -lq"
-alias cmatrix="cmatrix -C red -B"
-alias REEE="espeak \"Normies get out. REEEEEEEEEEEEEEEEEEEEEEEEEEEE\""
+alias mycli="mycli --no-warn"
 alias rip="echo -e \"              _|_
                |
             ___|___
@@ -106,13 +123,6 @@ alias rip="echo -e \"              _|_
           |         |
           |         |
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\""
-
-alias sl="sl -e"
-alias IF="echo -e \"I F I F I F    I F I F I F    I F I F I F    I F I F I F    I F I F I F    I F I F I F    \n
-    I F        I F                I F        I F                I F        I F            \n
-    I F        I F I F            I F        I F I F            I F        I F I F        \n
-    I F        I F                I F        I F                I F        I F            \n
-I F I F I F    I F            I F I F I F    I F            I F I F I F    I F            \n OKEY DOKE\""
 
 
 alias ayy="echo -e \"\n\e[32m░░░░█▒▒▄▀▀▀▀▀▄▄▒▒▒▒▒▒▒▒▒▄▄▀▀▀▀▀▀▄
@@ -132,47 +142,13 @@ alias ayy="echo -e \"\n\e[32m░░░░█▒▒▄▀▀▀▀▀▄▄▒▒
 █░░░█░░█░░░░█░░░░█░░░█░░█░░█░█░░░█░█░░░█
 ▀░░░▀░░▀░░░░▀░░░░▀▀▀░░░░░░░░░▀░░░▀░▀▄▄▄▀﻿\n\""
 
-alias wew="echo -e \"⢀⢀⢀⢀⢀⣤⠖⠚⠉⠉⠳⣦⢀⢀⢀⢀⢀⢀⢀⢀⣼⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⣀⣀⡀⢀⢀⢀⣀⣀\n⢀⢀⢀⡴⢋⣀⡀⢀⢀⢀⢀⢻⣷⢀⢀⢀⢀⢀⢀⣼⠇⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⣠⣾⠿⠛⠉⠁⢀⣴⡟⠁⢀⡇⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⣠⣤\n⢀⢀⠎⣰⣿⠿⣿⡄⢀⢀⢀⢸⣿⡆⢀⢀⢀⢀⣾⡿⢀⢀⢀⢀⡀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⣰⡟⠁⢀⢀⢀⢀⣾⡟⢀⢀⢀⡟⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢠⣿⡿\n⢀⠏⢰⣿⡟⢀⣿⡇⢀⢀⢀⣿⣿⡇⢀⢀⢀⢮⣿⠇⢀⢀⢠⠞⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢰⠏⢀⢀⢀⢀⢀⣿⣿⠁⢀⢀⢸⠇⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⣼⣿⠃\n⡜⢀⣾⡿⠃⢠⣿⠁⢀⢀⢸⣿⣿⠁⢀⢀⢊⣿⡟⢀⢀⡰⠃⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⡿⢀⢀⢀⢀⢀⣾⣿⠇⢀⢀⢠⠏⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢠⣿⡟\n⡇⢀⠋⢀⢀⣾⡏⢀⢀⢀⣿⣿⡏⢀⠠⠃⣾⣿⠇⢀⡴⠁⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⡇⢀⢀⢀⢀⣼⣿⡟⢀⢀⣰⠋⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⣼⣿⠁\n⠹⣄⣀⣤⣿⠟⢀⢀⢀⣾⣿⡟⢀⡐⠁⣼⣿⡟⢀⡰⣡⣶⡶⣆⢀⢀⣀⣀⢀⢀⣀⣀⢀⢀⣀⣀⢀⢀⢀⢀⢀⢀⢀⢷⢀⢀⢀⢸⣿⣿⠃⣠⠞⢁⣴⣶⣠⣶⡆⢀⢀⢀⣠⣶⣶⣰⣿⡏\n⢀⠈⠉⠉⢀⢀⢀⢀⣼⣿⡟⠁⠄⢀⢰⣿⣿⠃⣰⣿⣿⠏⢀⣿⢀⣸⣿⠏⢀⢸⣿⠃⢀⣼⣿⠇⢀⢀⢀⢀⢀⢀⢀⢀⠑⢀⢠⣿⣿⣿⠋⠁⣰⣿⡟⠁⣿⣿⢀⢀⢀⣴⣿⠟⢀⣿⡿\n⢀⢀⢀⢀⢀⢀⢀⣼⣿⠟⡀⢀⢀⢀⣿⣿⡟⢠⣿⣿⡟⢀⣰⠇⢀⣿⡿⢀⢀⣿⡏⢀⢰⣿⡏⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢰⣿⣿⠃⢀⣼⣿⡟⢀⣸⣿⠃⢀⢀⣼⣿⡏⢀⣼⣿⠃\n⢀⢀⢀⢀⢀⢀⣼⡿⠋⢀⢀⢀⢀⢸⣿⣿⠃⣿⣿⣿⠁⣰⠏⢀⣼⣿⠃⢀⣾⡿⢀⢠⣿⡟⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⣿⣿⡏⢀⣰⣿⣿⠁⢠⣿⡏⢀⢀⣸⣿⡿⢀⢰⣿⠇\n⢀⢀⢀⢀⢀⣾⣟⠕⠁⢀⢀⢀⢀⢸⣿⣿⣼⣿⣿⡿⠊⠁⣰⢣⣿⡟⢀⣰⣿⠃⢀⣾⣿⠁⡼⢀⢀⢀⣰⡾⠿⠿⣿⣶⣦⣾⣿⡟⢀⢀⣿⣿⡇⢀⣾⡿⢀⡞⢰⣿⣿⠇⢠⣿⡟⢠⡏\n⢀⢀⢀⢠⣾⡿⠁⢀⢀⢀⢀⢀⢀⢸⣿⣿⠃⣿⣿⢀⢀⡴⠃⣾⣿⣧⣰⣿⣿⣄⣾⣿⣧⡼⠁⢀⢀⢀⣿⢀⢀⢀⢀⢹⣿⣿⣟⢀⢀⢸⣿⣿⣧⣾⣿⣷⡾⠁⣼⣿⣿⣤⣿⣿⣷⡟\n⢀⢀⢀⠟⠉⢀⢀⢀⢀⢀⢀⢀⢀⢀⠻⠋⢀⢿⣿⣶⠟⠁⢀⠻⣿⡿⠛⣿⣿⠏⢿⣿⠟⠁⢀⢀⢀⢀⠘⠦⣤⣤⡶⠟⢻⣿⣿⢀⢀⠘⣿⣿⠋⢿⣿⠟⢀⢀⠸⣿⡿⠋⣿⣿⠏\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢿⣿⣇⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⣀⣠⣤⣤⣤⣤⣀⡀\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⠈⢿⣿⣆⢀⢀⢀⢀⢀⢀⣠⡤⠶⠛⠛⠛⠻⢿⣿⣿⣿⣿⣶⣄\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⠙⠿⣷⣤⣤⠶⠞⠋⠁⢀⢀⢀⢀⢀⢀⠈⠻⠛⠉⠉⠉⠙⠂\n\""
+shiny=$((1 + $RANDOM % 10))
+if [[ "$shiny" == "1" ]]; then
+    echo -n "Shiny "
+    pokeget random -s
+else
+    pokeget random
+fi
 
 
-echo 'Access granted.'
-echo "                 .\"-,.__
-                 \`.     \`.  ,
-              .--'  .._,'\"-' \`.
-             .    .'         \`'
-             \`.   /          ,'
-               \`  '--.   ,-\"'
-                \`\"\`   |  \\
-                   -. \\, |
-                    \`--Y.'      ___.
-                         \\     L._, \\
-               _.,        \`.   <  <\\                _
-             ,' '           \`, \`.   | \\            ( \`
-          ../, \`.            \`  |    .\\\`.           \\ \\_
-         ,' ,..  .           _.,'    ||\\l            )  '\".
-        , ,'   \\           ,'.-.\`-._,'  |           .  _._\`.
-      ,' /      \\ \\        \`' ' \`--/   | \\          / /   ..\\
-    .'  /        \\ .         |\\__ - _ ,'\` \`        / /     \`.\`.
-    |  '          ..         \`-...-\"  |  \`-'      / /        . \`.
-    | /           |L__           |    |          / /          \`. \`.
-   , /            .   .          |    |         / /             \` \`
-  / /          ,. ,\`._ \`-_       |    |  _   ,-' /               \` \\
- / .           \\\"\`_/. \`-_ \\_,.  ,'    +-' \`-'  _,        ..,-.    \\\`.
-  '         .-f    ,'   \`    '.       \\__.---'     _   .'   '     \\ \\
-' /          \`.'    l     .' /          \\..      ,_|/   \`.  ,'\`     L\`
-|'      _.-\"\"\` \`.    \\ _,'  \`            \\ \`.___\`.'\"\`-.  , |   |    | \\
-||    ,'      \`. \`.   '       _,...._        \`  |    \`/ '  |   '     .|
-||  ,'          \`. ;.,.---' ,'       \`.   \`.. \`-'  .-' /_ .'    ;_   ||
-|| '              V      / /           \`   | \`   ,'   ,' '.    !  \`. ||
-||/            _,-------7 '              . |  \`-'    l         /    \`||
- |          ,' .-   ,' ||               | .-.        \`.      .'     ||
- \`'        ,'    \`\".'    |               |    \`.        '. -.'       \`'
-          /      ,'      |               |,'    \\-.._,.'/'
-          .     /        .               .       \\    .''
-        .\`.    |         \`.             /         :_,'.'
-          \\ \`...\\   _     ,'-.        .'         /_.-'
-           \`-.__ \`,  \`'   .  _.>----''.  _  __  /
-                .'        /\"'          |  \"'   '_
-               /_|.-'\\ ,\".             '.'\`__'-( \\
-                 / ,\"'\"\\,'               \`/  \`-.|\" mh"
-
+echo 'Access granted.\n\nWelcome to $(hostname)\n'

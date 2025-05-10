@@ -143,9 +143,9 @@ vim.g.mapleader = ' '
     -- maximizer
 vim.keymap.set('n', '<leader>m', ':MaximizerToggle<CR>')
     -- neoterm
-vim.keymap.set('n', '<c-q>', ':Ttoggle<CR>')
-vim.keymap.set('i', '<c-q>', '<Esc>:Ttoggle<CR>')
-vim.keymap.set('t', '<c-q>', '<c-\\><c-n>:Ttoggle<CR>')
+vim.keymap.set('n', '<c-t>', ':Ttoggle<CR>')
+vim.keymap.set('i', '<c-t>', '<Esc>:Ttoggle<CR>')
+vim.keymap.set('t', '<c-t>', '<c-\\><c-n>:Ttoggle<CR>')
     -- neoformat (need format files)
 vim.keymap.set('n', '<leader>F', ':Neoformat prettier<CR>')
 
