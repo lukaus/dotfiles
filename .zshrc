@@ -98,10 +98,6 @@ export EDITOR='nvim'
 TERM="xterm-256color"
 today=$(/usr/bin/date +'%Y-%m-%d')
 
-export PATH="${PATH}:/home/lukaus/CEdev/bin"
-
-alias vim='nvim' # risky???
-
 alias dev='tmux a -t dev'
 alias ll="ls -l --color=auto"
 alias la="ls -a --color=auto"
