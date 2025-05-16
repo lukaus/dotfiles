@@ -19,7 +19,18 @@ return {
       vim.cmd("colorscheme catppuccin")
     end,
   },
-
+	{
+	  "ficcdaf/ashen.nvim",
+	  -- optional but recommended,
+	  -- pin to the latest stable release:
+	  tag = "*",
+	  lazy = false,
+	  priority = 1000,
+	  -- configuration is optional!
+	  opts = {
+	    -- your settings here
+	  },
+},
   -- UI & Utilities
   "itchyny/lightline.vim",
   "itchyny/vim-gitbranch",
