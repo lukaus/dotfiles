@@ -1,30 +1,36 @@
 local vim = vim
-local Plug = vim.fn['plug#']
+vim.opt.termguicolors = true
 
-vim.call('plug#begin')
+vim.g.mapleader = ' '
 
-Plug('tomasiser/vim-code-dark')
-Plug('pangloss/vim-javascript')
-Plug('itchyny/lightline.vim')
-Plug('itchyny/vim-gitbranch')
-Plug('szw/vim-maximizer')
-Plug('christoomey/vim-tmux-navigator')
-Plug('kassio/neoterm')
-Plug('tpope/vim-commentary')
-Plug('sbdchd/neoformat')
-Plug('junegunn/fzf', { ['dir']= '~/.fzf', ['do']= './install -all' })
-Plug('junegunn/fzf.vim')
-Plug('tpope/vim-fugitive')
-Plug('airblade/vim-gitgutter')
-Plug('neovim/nvim-lspconfig')
-Plug('hrsh7th/nvim-cmp')
-Plug('hrsh7th/cmp-nvim-lsp')
---Plug('nvim-lua/completion-nvim')
-Plug('wbthomason/packer.nvim')
-Plug('L3MON4D3/LuaSnip')
-Plug('puremourning/vimspector')
-Plug('sagi-z/vimspectorpy')
-vim.call('plug#end')
+-- bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git", "clone", "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git", lazypath
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup("plugins")
+
+
+
+pcall(require, "catppuccin")
+pcall(function()
+  require("catppuccin").setup({
+    flavour = "mocha",
+    integrations = {
+      treesitter = true,
+      lsp_trouble = true,
+      cmp = true,
+      gitsigns = true,
+      telescope = true,
+      nvimtree = true,
+    }
+  })
+end)
 
 -- default options
 vim.cmd('set completeopt=menuone,noinsert,noselect')
@@ -49,35 +55,18 @@ vim.opt.updatetime=750
 vim.cmd('filetype plugin indent on')
 vim.cmd('let g:netwr_banner=0')
 --let g:markdown_fenced_languages = ['javascript', 'js=javascript', 'json=javascript']
---vim.cmd.colorscheme('codedark')
-vim.cmd.colorscheme('mourning')
+vim.cmd('colorscheme catppuccin-mocha')
 
 local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {}
-lspconfig.tsserver.setup {}
+--lspconfig.pyright.setup {}
+--lspconfig.tsserver.setup {}
 
-local use = require('packer').use
-require('packer').startup(function()
-  use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
-  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
-  use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
-  use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
-end)
 
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local lspconfig = require('lspconfig')
 
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'pyright', 'tsserver' }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    -- on_attach = my_custom_on_attach,
-    capabilities = capabilities,
-  }
-end
 
 -- luasnip setup
 local luasnip = require 'luasnip'
@@ -129,7 +118,7 @@ vim.g.vimspector_enable_mappings = 'HUMAN'
 
 
 -- Plugin configs
-vim.cmd("let g:lightline = { 'active': {'left' : [ ['mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified' ] ] },'component_function' : {'gitbranch':'gitbranch#name'},    'colorscheme':'mourning'}")
+vim.cmd("let g:lightline = { 'active': {'left' : [ ['mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified' ] ] },'component_function' : {'gitbranch':'gitbranch#name'}}")
 
 vim.g.neoterm_default_mod = 'horizontal'
 vim.g.neoterm_size = 25 
@@ -139,7 +128,6 @@ vim.g.neoterm_autoinsert = 1
 
 
 -- Bindings
-vim.g.mapleader = ' '
     -- maximizer
 vim.keymap.set('n', '<leader>m', ':MaximizerToggle<CR>')
     -- neoterm
