@@ -27,6 +27,7 @@ pcall(function()
       gitsigns = true,
       telescope = true,
       nvimtree = true,
+      lualine = true,
     }
   })
 end)
@@ -54,8 +55,8 @@ vim.opt.updatetime=750
 vim.cmd('filetype plugin indent on')
 vim.cmd('let g:netwr_banner=0')
 --let g:markdown_fenced_languages = ['javascript', 'js=javascript', 'json=javascript']
---vim.cmd('colorscheme catppuccin-mocha')
-vim.cmd("colorscheme ashen")
+vim.cmd('colorscheme catppuccin-mocha')
+--vim.cmd("colorscheme ashen")
 
 local lspconfig = require('lspconfig')
 --lspconfig.pyright.setup {}
@@ -118,7 +119,7 @@ vim.g.vimspector_enable_mappings = 'HUMAN'
 
 
 -- Plugin configs
-vim.cmd("let g:lightline = {'colorscheme':'catppuccin-mocha', 'active': {'left' : [ ['mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified' ] ] },'component_function' : {'gitbranch':'gitbranch#name'}}")
+--vim.cmd("let g:lightline = {'colorscheme':'catppuccin', 'active': {'left' : [ ['mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified' ] ] },'component_function' : {'gitbranch':'gitbranch#name'}}")
 
 vim.g.neoterm_default_mod = 'horizontal'
 vim.g.neoterm_size = 25 

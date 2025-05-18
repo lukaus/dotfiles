@@ -6,7 +6,7 @@ return {
     priority = 1000,
     config = function()
       require("catppuccin").setup({
-        flavour = "macchiato",
+        flavour = "mocha",
         integrations = {
           treesitter = true,
           lsp_trouble = true,
@@ -19,20 +19,43 @@ return {
       vim.cmd("colorscheme catppuccin")
     end,
   },
-	{
-	  "ficcdaf/ashen.nvim",
-	  -- optional but recommended,
-	  -- pin to the latest stable release:
-	  tag = "*",
-	  lazy = false,
-	  priority = 1000,
-	  -- configuration is optional!
-	  opts = {
-	    -- your settings here
-	  },
-},
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",          -- load after start‑up
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- optional icons
+    config = function()
+	  require("lualine").setup({
+	    options = {
+		  theme = "catppuccin",   -- Catppuccin hands the palette to lualine :contentReference[oaicite:0]{index=0}
+		  section_separators = "",
+		  component_separators = "",
+	    },
+	    sections = {
+		  lualine_a = { "mode" },
+		  lualine_b = { "branch" },
+		  lualine_c = { { "filename", path = 1 }, "diff" },
+		  lualine_x = { "diagnostics", "encoding", "filetype" },
+		  lualine_y = { "progress" },
+	  	  lualine_z = { "location" },
+	    },
+	  })
+    end,
+  },
+
+  {
+    "ficcdaf/ashen.nvim",
+    -- optional but recommended,
+    -- pin to the latest stable release:
+    --tag = "*",
+    version = "*",
+    lazy = false,
+    priority = 1000,
+    -- configuration is optional!
+    opts = {
+      -- your settings here
+    },
+  },
   -- UI & Utilities
-  "itchyny/lightline.vim",
   "itchyny/vim-gitbranch",
   "szw/vim-maximizer",
   "christoomey/vim-tmux-navigator",
