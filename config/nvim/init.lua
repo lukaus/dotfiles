@@ -127,15 +127,11 @@ cmp.setup {
     },
 }
 
---let test#python#runner = 'pytest'
-
---let test#java#runner = 'gradletest'
 
 vim.g.vimspector_enable_mappings = 'HUMAN'
 
 
 -- Plugin configs
---vim.cmd("let g:lightline = {'colorscheme':'catppuccin', 'active': {'left' : [ ['mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified' ] ] },'component_function' : {'gitbranch':'gitbranch#name'}}")
 
 vim.g.neoterm_default_mod = 'horizontal'
 vim.g.neoterm_size = 25 
@@ -157,13 +153,7 @@ vim.keymap.set('n', '<leader>F', ':Neoformat prettier<CR>')
 -- fzf
 vim.keymap.set('n', '<leader><space>', ':GFiles<CR>')
 vim.keymap.set('n', '<leader>ff', ':GFiles<CR>')
---[[
-vim.keymap.set('n', '<leader><space>', ':GFiles<CR>')
-if has('nvim')
-then
-    vim. 
-end
---]]
+--
 -- git status
 vim.keymap.set('n', '<leader>gg', ':G<CR>')
 

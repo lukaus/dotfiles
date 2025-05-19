@@ -27,7 +27,7 @@ return {
         config = function()
             require("lualine").setup({
                 options = {
-                    theme = "catppuccin",   -- Catppuccin hands the palette to lualine :contentReference[oaicite:0]{index=0}
+                    theme = "catppuccin",   
                     section_separators = "",
                     component_separators = "",
                 },
@@ -48,7 +48,7 @@ return {
         build = ':TSUpdate',
         config = function()
             require'nvim-treesitter.configs'.setup {
-                ensure_installed = { 'python', 'java' }, -- Add languages here
+                ensure_installed = { 'python', 'java' },
                 highlight = { enable = true },
                 indent = { enable = true },
             }
