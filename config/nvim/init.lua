@@ -6,10 +6,10 @@ vim.g.mapleader = ' '
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git", "clone", "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git", lazypath
-  })
+    vim.fn.system({
+        "git", "clone", "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git", lazypath
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -18,23 +18,36 @@ require("lazy").setup("plugins")
 
 pcall(require, "catppuccin")
 pcall(function()
-  require("catppuccin").setup({
-    flavour = "mocha",
-    integrations = {
-      treesitter = true,
-      lsp_trouble = true,
-      cmp = true,
-      gitsigns = true,
-      telescope = true,
-      nvimtree = true,
-      lualine = true,
-    }
-  })
+    require("catppuccin").setup({
+        flavour = "mocha",
+        integrations = {
+            treesitter = true,
+            lsp_trouble = true,
+            cmp = true,
+            gitsigns = true,
+            telescope = true,
+            nvimtree = true,
+            lualine = true,
+        }
+    })
 end)
+
+require('lualine').setup {
+    sections = {
+        lualine_c = {
+            'filename',
+            { 'lsp_progress' },  -- Optional: requires plugin like arkav/lualine-lsp-progress
+        },
+        lualine_x = {
+            'filetype'
+        }
+    }
+}
 
 -- default options
 vim.cmd('set completeopt=menuone,noinsert,noselect')
 vim.opt.wrap = false
+
 vim.opt.wildmode='longest,list,full'
 vim.opt.mouse='a'
 vim.opt.splitright = true
@@ -75,45 +88,48 @@ local luasnip = require 'luasnip'
 -- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-    ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
-    -- C-b (back) C-f (forward) for snippet placeholder navigation.
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  }),
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-  },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
+        ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+        -- C-b (back) C-f (forward) for snippet placeholder navigation.
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+        },
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+    }),
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
+    },
 }
 
+--let test#python#runner = 'pytest'
+
+--let test#java#runner = 'gradletest'
 
 vim.g.vimspector_enable_mappings = 'HUMAN'
 
@@ -129,16 +145,16 @@ vim.g.neoterm_autoinsert = 1
 
 
 -- Bindings
-    -- maximizer
+-- maximizer
 vim.keymap.set('n', '<leader>m', ':MaximizerToggle<CR>')
-    -- neoterm
+-- neoterm
 vim.keymap.set('n', '<c-t>', ':Ttoggle<CR>')
 vim.keymap.set('i', '<c-t>', '<Esc>:Ttoggle<CR>')
 vim.keymap.set('t', '<c-t>', '<c-\\><c-n>:Ttoggle<CR>')
-    -- neoformat (need format files)
+-- neoformat (need format files)
 vim.keymap.set('n', '<leader>F', ':Neoformat prettier<CR>')
 
-    -- fzf
+-- fzf
 vim.keymap.set('n', '<leader><space>', ':GFiles<CR>')
 vim.keymap.set('n', '<leader>ff', ':GFiles<CR>')
 --[[
@@ -148,7 +164,7 @@ then
     vim. 
 end
 --]]
-    -- git status
+-- git status
 vim.keymap.set('n', '<leader>gg', ':G<CR>')
 
 -- Code completion and language server binds
