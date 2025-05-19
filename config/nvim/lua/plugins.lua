@@ -27,7 +27,7 @@ return {
         config = function()
             require("lualine").setup({
                 options = {
-                    theme = "catppuccin",   
+                    theme = "catppuccin",   -- Catppuccin hands the palette to lualine :contentReference[oaicite:0]{index=0}
                     section_separators = "",
                     component_separators = "",
                 },
@@ -48,11 +48,16 @@ return {
         build = ':TSUpdate',
         config = function()
             require'nvim-treesitter.configs'.setup {
-                ensure_installed = { 'python', 'java' },
+                ensure_installed = { 'python', 'java' }, -- Add languages here
                 highlight = { enable = true },
                 indent = { enable = true },
             }
         end
+    },
+    {
+  "nvim-treesitter/nvim-treesitter-context",
+  dependencies = { "nvim-treesitter/nvim-treesitter" },
+  config = true  -- uses default config
     },
     {
         "williamboman/mason.nvim",

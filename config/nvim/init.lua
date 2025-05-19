@@ -43,6 +43,14 @@ require('lualine').setup {
         }
     }
 }
+require('treesitter-context').setup {
+    enable = true,            -- Enable this plugin
+    max_lines = 3,            -- Maximum number of lines to show
+    trim_scope = 'outer',     -- Trim outer context first
+    mode = 'cursor',          -- 'cursor' or 'topline'
+    separator = nil,          -- Use a custom separator like '─'
+    zindex = 20,              -- Display priority
+}
 
 -- default options
 vim.cmd('set completeopt=menuone,noinsert,noselect')
@@ -127,11 +135,15 @@ cmp.setup {
     },
 }
 
+--let test#python#runner = 'pytest'
+
+--let test#java#runner = 'gradletest'
 
 vim.g.vimspector_enable_mappings = 'HUMAN'
 
 
 -- Plugin configs
+--vim.cmd("let g:lightline = {'colorscheme':'catppuccin', 'active': {'left' : [ ['mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified' ] ] },'component_function' : {'gitbranch':'gitbranch#name'}}")
 
 vim.g.neoterm_default_mod = 'horizontal'
 vim.g.neoterm_size = 25 
@@ -153,28 +165,36 @@ vim.keymap.set('n', '<leader>F', ':Neoformat prettier<CR>')
 -- fzf
 vim.keymap.set('n', '<leader><space>', ':GFiles<CR>')
 vim.keymap.set('n', '<leader>ff', ':GFiles<CR>')
---
+--[[
+vim.keymap.set('n', '<leader><space>', ':GFiles<CR>')
+if has('nvim')
+then
+    vim. 
+end
+--]]
 -- git status
 vim.keymap.set('n', '<leader>gg', ':G<CR>')
 
 -- Code completion and language server binds
-vim.keymap.set('n', 'gd',       '<cmd> lua vim.lsp.buf.definition()', {silent=true})
-vim.keymap.set('n', 'gh',       '<cmd> lua vim.lsp.buf.hover()', {silent=true})
-vim.keymap.set('n', 'gH',       '<cmd> lua vim.lsp.buf.code_action()', {silent=true})
-vim.keymap.set('n', 'gD',       '<cmd> lua vim.lsp.buf.implementation()', {silent=true})
-vim.keymap.set('n', '<c-k>',    '<cmd> lua vim.lsp.buf.signature_help()', {silent=true})
-vim.keymap.set('n', 'gr',       '<cmd> lua vim.lsp.buf.references()', {silent=true})
-vim.keymap.set('n', 'gR',       '<cmd> lua vim.lsp.buf.rename()', {silent=true})
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { silent = true, desc = 'Go to definition' })
+vim.keymap.set('n', 'gh', vim.lsp.buf.hover, { silent = true, desc = 'Hover documentation' })
+vim.keymap.set('n', 'gH', vim.lsp.buf.code_action, { silent = true, desc = 'Code action' })
+vim.keymap.set('n', 'gD', vim.lsp.buf.implementation, { silent = true, desc = 'Go to implementation' })
+vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { silent = true, desc = 'Signature help' })
+vim.keymap.set('n', 'gr', vim.lsp.buf.references, { silent = true, desc = 'Find references' })
+vim.keymap.set('n', 'gR', vim.lsp.buf.rename, { silent = true, desc = 'Rename symbol' })
 
-vim.keymap.set('n', "<leader>da", ":call vimspector#Launch()<CR>")
-vim.keymap.set('n', "<leader>dx", ":call vimspector#Reset()<CR>")
-vim.keymap.set('n', "<S-k>", ":call vimspector#StepOut()<CR>")
-vim.keymap.set('n', "<S-l>", ":call vimspector#StepInto()<CR>")
-vim.keymap.set('n', "<S-j>", ":call vimspector#StepOver()<CR>")
-vim.keymap.set('n', "<leader>d_", ":call vimspector#Restart()<CR>")
-vim.keymap.set('n', "<leader>dn", ":call vimspector#Continue()<CR>")
-vim.keymap.set('n', "<leader>drc", ":call vimspector#RunToCursor()<CR>")
-vim.keymap.set('n', "<leader>dh", ":call vimspector#ToggleBreakpoint()<CR>")
-vim.keymap.set('n', "<leader>de", ":call vimspector#ToggleConditionalBreakpoint()<CR>")
-vim.keymap.set('n', "<leader>dX", ":call vimspector#ClearBreakpoints()<CR>")
+-- Vimspector Debugger Keymaps (strings with <CR> are appropriate here)
+vim.keymap.set('n', '<leader>da', ':call vimspector#Launch()<CR>', { silent = true, desc = 'Vimspector Launch' })
+vim.keymap.set('n', '<leader>dx', ':call vimspector#Reset()<CR>', { silent = true, desc = 'Vimspector Reset' })
+vim.keymap.set('n', '<S-k>',      ':call vimspector#StepOut()<CR>', { silent = true, desc = 'Vimspector Step Out' })
+vim.keymap.set('n', '<S-l>',      ':call vimspector#StepInto()<CR>', { silent = true, desc = 'Vimspector Step Into' })
+vim.keymap.set('n', '<S-j>',      ':call vimspector#StepOver()<CR>', { silent = true, desc = 'Vimspector Step Over' })
+vim.keymap.set('n', '<leader>d_', ':call vimspector#Restart()<CR>', { silent = true, desc = 'Vimspector Restart' })
+vim.keymap.set('n', '<leader>dn', ':call vimspector#Continue()<CR>', { silent = true, desc = 'Vimspector Continue' })
+vim.keymap.set('n', '<leader>drc', ':call vimspector#RunToCursor()<CR>', { silent = true, desc = 'Vimspector Run to Cursor' })
+vim.keymap.set('n', '<leader>dh', ':call vimspector#ToggleBreakpoint()<CR>', { silent = true, desc = 'Vimspector Toggle Breakpoint' })
+vim.keymap.set('n', '<leader>de', ':call vimspector#ToggleConditionalBreakpoint()<CR>', { silent = true, desc = 'Vimspector Conditional Breakpoint' })
+vim.keymap.set('n', '<leader>dX', ':call vimspector#ClearBreakpoints()<CR>', { silent = true, desc = 'Vimspector Clear Breakpoints' })
+
 
