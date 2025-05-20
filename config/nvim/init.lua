@@ -128,13 +128,7 @@ vim.opt.cmdheight=1
 vim.opt.updatetime=750
 vim.cmd('filetype plugin indent on')
 vim.cmd('let g:netwr_banner=0')
---let g:markdown_fenced_languages = ['javascript', 'js=javascript', 'json=javascript']
 vim.cmd('colorscheme catppuccin-mocha')
---vim.cmd("colorscheme ashen")
-
---local lspconfig = require('lspconfig')
---lspconfig.pyright.setup {}
---lspconfig.tsserver.setup {}
 
 
 -- Add additional capabilities supported by nvim-cmp
@@ -218,13 +212,7 @@ vim.keymap.set('n', '<leader>F', ':Neoformat prettier<CR>')
 -- fzf
 vim.keymap.set('n', '<leader><space>', ':GFiles<CR>')
 vim.keymap.set('n', '<leader>ff', ':GFiles<CR>')
---[[
-vim.keymap.set('n', '<leader><space>', ':GFiles<CR>')
-if has('nvim')
-then
-    vim. 
-end
---]]
+
 -- git status
 vim.keymap.set('n', '<leader>gg', ':G<CR>')
 
@@ -232,11 +220,6 @@ vim.keymap.set('n', '<leader>gg', ':G<CR>')
 vim.keymap.set('n', 'gh', vim.lsp.buf.hover, { silent = true, desc = 'Hover documentation' })
 vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { silent = true, desc = 'Signature help' })
 vim.keymap.set('n', 'gR', vim.lsp.buf.rename, { silent = true, desc = 'Rename symbol' })
-
---vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, { silent = true, desc = 'Find references (Telescope)' })
---vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, { silent = true, desc = 'Go to definition (Telescope)' })
---vim.keymap.set('n', 'gD', require('telescope.builtin').lsp_implementations, { silent = true, desc = 'Go to implementation (Telescope)' })
---vim.keymap.set('n', 'gH', require('telescope.builtin').lsp_code_actions, { silent = true, desc = 'Code action (Telescope)' })
 
 -- Vimspector Debugger Keymaps (strings with <CR> are appropriate here)
 vim.keymap.set('n', '<leader>da', ':call vimspector#Launch()<CR>', { silent = true, desc = 'Vimspector Launch' })

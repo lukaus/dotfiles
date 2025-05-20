@@ -68,10 +68,8 @@ return {
         "williamboman/mason-lspconfig.nvim",
         config = function()
             require("mason-lspconfig").setup {
-                ensure_installed = { "pyright" }, -- LSPs for Python and Java
-                handlers = {
-                    jdtls = function() end
-                }
+                ensure_installed = { "pyright", "jdtls" }, -- LSPs for Python and Java
+
             }
         end
     },
@@ -84,46 +82,7 @@ return {
             lspconfig.pyright.setup {}
 
             -- Java
-            local jdtls_path = vim.fn.expand("~/.local/jdtls")
-
-            local jars = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar", 1, 1)
-            if #jars == 0 then
-                error("Could not find jdtls launcher jar in " .. jdtls_path)
-            end
-            local launcher_jar = jars[1]
-
-            local java_21_path = "/usr/lib/jvm/java-1.21.0-openjdk-amd64/bin/java"
-
-            lspconfig.jdtls.setup {
-                cmd = {
-                    java_21_path,
-                    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-                    "-Dosgi.bundles.defaultStartLevel=4",
-                    "-Declipse.product=org.eclipse.jdt.ls.core.product",
-                    "-Dlog.level=ALL",
-                    "-noverify",
-                    "-Xmx1G",
-                    "-jar", launcher_jar,
-                    "-configuration", jdtls_path .. "/config_linux",
-                    "-data", vim.fn.expand("~/.cache/jdtls-workspace")
-                },
-                settings = {
-                    java = {
-                        configuration = {
-                            runtimes = {
-                                {
-                                    name = "JavaSE-17",
-                                    path = "/usr/lib/jvm/java-1.17.0-openjdk-amd64",
-                                },
-                            },
-                        },
-                        compiler = {
-                            source = "17",
-                            target = "17",
-                        },
-                    },
-                }
-            }
+            lspconfig.jdtls.setup {}
         end
     },
     {
