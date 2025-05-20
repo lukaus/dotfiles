@@ -55,9 +55,9 @@ return {
         end
     },
     {
-  "nvim-treesitter/nvim-treesitter-context",
-  dependencies = { "nvim-treesitter/nvim-treesitter" },
-  config = true  -- uses default config
+        "nvim-treesitter/nvim-treesitter-context",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        config = true  -- uses default config
     },
     {
         "williamboman/mason.nvim",
@@ -68,7 +68,10 @@ return {
         "williamboman/mason-lspconfig.nvim",
         config = function()
             require("mason-lspconfig").setup {
-                ensure_installed = { "pyright", "jdtls" }, -- LSPs for Python and Java
+                ensure_installed = { "pyright" }, -- LSPs for Python and Java
+                handlers = {
+                    jdtls = function() end
+                }
             }
         end
     },
@@ -76,11 +79,53 @@ return {
         "neovim/nvim-lspconfig",
         config = function()
             local lspconfig = require("lspconfig")
+
+            -- Python
             lspconfig.pyright.setup {}
-            lspconfig.jdtls.setup {}
+
+            -- Java
+            local jdtls_path = vim.fn.expand("~/.local/jdtls")
+
+            local jars = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar", 1, 1)
+            if #jars == 0 then
+                error("Could not find jdtls launcher jar in " .. jdtls_path)
+            end
+            local launcher_jar = jars[1]
+
+            local java_21_path = "/usr/lib/jvm/java-1.21.0-openjdk-amd64/bin/java"
+
+            lspconfig.jdtls.setup {
+                cmd = {
+                    java_21_path,
+                    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+                    "-Dosgi.bundles.defaultStartLevel=4",
+                    "-Declipse.product=org.eclipse.jdt.ls.core.product",
+                    "-Dlog.level=ALL",
+                    "-noverify",
+                    "-Xmx1G",
+                    "-jar", launcher_jar,
+                    "-configuration", jdtls_path .. "/config_linux",
+                    "-data", vim.fn.expand("~/.cache/jdtls-workspace")
+                },
+                settings = {
+                    java = {
+                        configuration = {
+                            runtimes = {
+                                {
+                                    name = "JavaSE-17",
+                                    path = "/usr/lib/jvm/java-1.17.0-openjdk-amd64",
+                                },
+                            },
+                        },
+                        compiler = {
+                            source = "17",
+                            target = "17",
+                        },
+                    },
+                }
+            }
         end
     },
-
     {
         'hrsh7th/nvim-cmp',
         dependencies = {
@@ -195,6 +240,21 @@ return {
 
             -- Keybinding to toggle the tree
             vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+        end
+    },
+    {
+        "nvim-telescope/telescope.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            local builtin = require("telescope.builtin")
+
+            vim.keymap.set('n', 'gr', builtin.lsp_references, { desc = 'References (Telescope)' })
+            vim.keymap.set('n', 'gd', builtin.lsp_definitions, { desc = 'Definitions (Telescope)' })
+            vim.keymap.set('n', 'gD', builtin.lsp_implementations, { desc = 'Implementations (Telescope)' })
+            vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+            vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+            vim.keymap.set('n', '<leader>ss', builtin.lsp_workspace_symbols, { desc = '[S]earch [S]ymbols' })
+            vim.keymap.set('n', '<leader>sb', builtin.lsp_document_symbols, { desc = '[S]ymbols in [B]uffer' })
         end
     },
     -- ashen colorscheme

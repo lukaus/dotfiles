@@ -1,6 +1,58 @@
 local vim = vim
 vim.opt.termguicolors = true
 
+--[[
+
+NEOVIM CONFIG CHEAT SHEET
+
+General
+<leader>e        Toggle file tree (nvim-tree)
+<leader>m        Toggle maximized window (vim-maximizer)
+<leader><space>  FZF Git-tracked files (:GFiles)
+<leader>gg       Git status (fugitive)
+
+Telescope (fuzzy finder & LSP navigation)
+gd               Go to definition (Telescope)
+gD               Go to implementation (Telescope)
+gr               Find references (Telescope)
+gH               Code actions (Telescope)
+<C-k>            Signature help
+gh               Hover documentation
+gR               Rename symbol
+gy               Go to type definition (Telescope, if mapped)
+<leader>sf       Find files
+<leader>sg       Live grep
+<leader>ss       Workspace symbols
+<leader>sb       Document symbols
+
+Testing (vim-test)
+<leader>t        Test nearest
+<leader>T        Test file
+<leader>a        Test suite
+<leader>l        Last test
+<leader>g        Visit test location
+
+Debugging (vimspector + nvim-dap)
+<F5>             Start DAP session
+<F10>/<F11>/<F12> Step over / into / out
+<leader>da       Start Vimspector
+<leader>dx       Reset Vimspector
+<leader>dn       Continue (Vimspector)
+<leader>dh       Toggle breakpoint
+<leader>de       Set conditional breakpoint
+<leader>dX       Clear all breakpoints
+<leader>drc      Run to cursor
+
+Formatting
+<leader>F        Format file using Neoformat
+
+
+Terminal (neoterm)
+<C-t>            Toggle terminal window
+
+]]
+
+
 vim.g.mapleader = ' '
 
 -- bootstrap lazy.nvim
@@ -52,6 +104,7 @@ require('treesitter-context').setup {
     zindex = 20,              -- Display priority
 }
 
+
 -- default options
 vim.cmd('set completeopt=menuone,noinsert,noselect')
 vim.opt.wrap = false
@@ -79,7 +132,7 @@ vim.cmd('let g:netwr_banner=0')
 vim.cmd('colorscheme catppuccin-mocha')
 --vim.cmd("colorscheme ashen")
 
-local lspconfig = require('lspconfig')
+--local lspconfig = require('lspconfig')
 --lspconfig.pyright.setup {}
 --lspconfig.tsserver.setup {}
 
@@ -176,13 +229,14 @@ end
 vim.keymap.set('n', '<leader>gg', ':G<CR>')
 
 -- Code completion and language server binds
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { silent = true, desc = 'Go to definition' })
 vim.keymap.set('n', 'gh', vim.lsp.buf.hover, { silent = true, desc = 'Hover documentation' })
-vim.keymap.set('n', 'gH', vim.lsp.buf.code_action, { silent = true, desc = 'Code action' })
-vim.keymap.set('n', 'gD', vim.lsp.buf.implementation, { silent = true, desc = 'Go to implementation' })
 vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { silent = true, desc = 'Signature help' })
-vim.keymap.set('n', 'gr', vim.lsp.buf.references, { silent = true, desc = 'Find references' })
 vim.keymap.set('n', 'gR', vim.lsp.buf.rename, { silent = true, desc = 'Rename symbol' })
+
+--vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, { silent = true, desc = 'Find references (Telescope)' })
+--vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions, { silent = true, desc = 'Go to definition (Telescope)' })
+--vim.keymap.set('n', 'gD', require('telescope.builtin').lsp_implementations, { silent = true, desc = 'Go to implementation (Telescope)' })
+--vim.keymap.set('n', 'gH', require('telescope.builtin').lsp_code_actions, { silent = true, desc = 'Code action (Telescope)' })
 
 -- Vimspector Debugger Keymaps (strings with <CR> are appropriate here)
 vim.keymap.set('n', '<leader>da', ':call vimspector#Launch()<CR>', { silent = true, desc = 'Vimspector Launch' })
@@ -196,5 +250,6 @@ vim.keymap.set('n', '<leader>drc', ':call vimspector#RunToCursor()<CR>', { silen
 vim.keymap.set('n', '<leader>dh', ':call vimspector#ToggleBreakpoint()<CR>', { silent = true, desc = 'Vimspector Toggle Breakpoint' })
 vim.keymap.set('n', '<leader>de', ':call vimspector#ToggleConditionalBreakpoint()<CR>', { silent = true, desc = 'Vimspector Conditional Breakpoint' })
 vim.keymap.set('n', '<leader>dX', ':call vimspector#ClearBreakpoints()<CR>', { silent = true, desc = 'Vimspector Clear Breakpoints' })
+
 
 
