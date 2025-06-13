@@ -3,13 +3,57 @@
 export PATH=$PATH:/usr/local/go/bin
 path+=('/home/lukaus/.cargo/bin')
 
+
+# Command timer for prompt
+setopt PROMPT_SUBST
+autoload -Uz add-zsh-hook
+
+# record start time
+timer_preexec() {
+  TIMER_START=$(date +%s%N)
+}
+add-zsh-hook preexec timer_preexec
+
+timer_precmd() {
+  if [[ -n $TIMER_START ]]; then
+    local now=$(date +%s%N)
+    local delta_ns=$(( now - TIMER_START ))
+    unset TIMER_START
+
+    # convert to integer milliseconds
+    local delta_ms=$(( delta_ns / 1000000 ))
+
+    if (( delta_ms < 5000 )); then
+      # under 5 s → only ms
+      LAST_CMD_DUR="${delta_ms}ms"
+
+    elif (( delta_ms < 60000 )); then
+      # 5 s–1 min → seconds + ms
+      local sec=$(( delta_ms / 1000 ))
+      local rem_ms=$(( delta_ms % 1000 ))
+      LAST_CMD_DUR="${sec}s${rem_ms}ms"
+
+    else
+      # 1 min or more → minutes + seconds + ms
+      local total_s=$(( delta_ms / 1000 ))
+      local mins=$(( total_s / 60 ))
+      local secs=$(( total_s % 60 ))
+      local rem_ms=$(( delta_ms % 1000 ))
+      LAST_CMD_DUR="${mins}m${secs}s${rem_ms}ms"
+    fi
+  fi
+
+}
+add-zsh-hook precmd timer_precmd
+  
+
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/lukaus/.oh-my-zsh
+export ZSH=/home/lukaus/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="darkblood"
+ZSH_THEME="darkblood-datetimer"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -51,7 +95,7 @@ ZSH_THEME="darkblood"
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+#HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -66,7 +110,9 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+# User configuration 
+
+setopt EXTENDED_HISTORY
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -102,10 +148,10 @@ alias dev='tmux a -t dev'
 alias ll="ls -l --color=auto"
 alias la="ls -a --color=auto"
 alias lla="ls -l -a --color=auto"
-alias diff="icdiff -HN"
-alias odiff="diff"
+alias odiff="/usr/bin/diff"
+alias diff="icdiff -N"
 alias vim="nvim"
-alias ovim="vim"
+alias ovim="/usr/bin/vim"
 alias bc="bc -lq"
 alias mycli="mycli --no-warn"
 alias rip="echo -e \"              _|_
